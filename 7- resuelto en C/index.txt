@@ -1,0 +1,48 @@
+Generar en Google Colab, con la IA, la misma versión de problema, pero resuelto en C.
+Si queremos hacer la misma versión del problema del factorial, pero en C y ejecutarlo directamente en Google Colab, 
+podemos hacerlo así:
+
+-Crear el archivo en C
+En Colab, podemos usar %%writefile para crear un archivo .c:
+
+Compilar el programa en Colab.
+
+Ejecutar el programa
+
+-Te pedirá ingresar un número (por ejemplo 5).
+
+Salida esperada:
+Ingrese un numero: 5 El factorial de 5 es: 120
+
+#Crear el archivo en C
+%%writefile factorial.c
+#include <stdio.h>
+
+int main() {
+    int num;
+    unsigned long long result = 1;
+
+    printf("Ingrese un numero: ");
+    scanf("%d", &num);
+
+    if(num < 0) {
+        printf("El factorial no esta definido para numeros negativos.\n");
+        return 1;
+    }
+
+    for(int i = 1; i <= num; i++) {
+        result *= i;
+    }
+
+    printf("El factorial de %d es: %llu\n", num, result);
+    return 0;
+}
+Writing factorial.c
+
+#Compilar el programa en Colab
+!gcc factorial.c -o factorial
+
+#Ejecutar el programa
+!./factorial
+Ingrese un numero: 5
+El factorial de 5 es: 120

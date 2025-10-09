@@ -1,0 +1,6 @@
+1- Desarrollar un diagrama de flujo, por ejemplo usando Dia, o alguna versión online.
+Para este item se uso code2flow, donde primero se paso el ejecicio a pseudocodigo para luego copiarlo en la pagina online la cual nos facilita el diagrama.
+Link de colab
+https://colab.research.google.com/drive/10UxfpLicm_Bd_wDk13ZEw0OVWr-acJXf?usp=sharing
+
+Algunas imagenes capaz no se vean en Visual Studio Code, pero se encuentran en google colab.

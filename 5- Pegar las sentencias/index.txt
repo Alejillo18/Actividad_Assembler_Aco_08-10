@@ -1,0 +1,28 @@
+ Pegar las sentencias usadas en linux para compilar y linkear. Lo hizo Uziel.
+Debemos colocar ! para que colab lo reconozca los comandos.
+
+!sudo apt install nasm
+!nasm -f elf64 (nombre_del_archivo).asm -o (nombre que le quieres dar al archivo)
+!ld  (nombre que le diste al archivo).o -o (nombre del archivo)
+!./(Nombre del archivo)
+
+#Para borrar carpetas por si se equivocan ya que no se actualiza fácilmente
+
+!rm (nombre del archivo).o
+!rm (nombre del archivo)
+
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+nasm is already the newest version (2.15.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 42 not upgraded.
+/bin/bash: -c: line 1: syntax error near unexpected token `('
+/bin/bash: -c: line 1: `nasm -f elf64 (nombre_del_archivo).asm -o (nombre que le quieres dar al archivo)'
+/bin/bash: -c: line 1: syntax error near unexpected token `nombre'
+/bin/bash: -c: line 1: `ld  (nombre que le diste al archivo).o -o (nombre del archivo)'
+/bin/bash: -c: line 1: syntax error near unexpected token `Nombre'
+/bin/bash: -c: line 1: `./(Nombre del archivo)'
+/bin/bash: -c: line 1: syntax error near unexpected token `nombre'
+/bin/bash: -c: line 1: `rm (nombre del archivo).o'
+/bin/bash: -c: line 1: syntax error near unexpected token `nombre'
+/bin/bash: -c: line 1: `rm (nombre del archivo)'

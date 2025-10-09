@@ -1,0 +1,59 @@
+El código era:
+
+.MODEL SMALL .STACK 100h .DATA num DW 5 result DD ? .CODE START: MOV AX, @DATA MOV DS, AX
+
+MOV AX, 1
+MOV CX, [num]       ; Direccionamiento directo
+CMP CX, 0
+JE FACT_DONE
+FACT_LOOP: MUL CX ; AX = AX * CX LOOP FACT_LOOP
+
+FACT_DONE: MOV [result], AX ; Almacenar resultado
+
+MOV AH, 4Ch
+INT 21h
+END START
+
+El codigo completo comentado linea por linea:
+
+.MODEL SMALL .STACK 100h .DATA num DW 5 result DD ? .CODE START: MOV AX, @DATA MOV DS, AX
+
+MOV AX, 1
+MOV CX, [num]       ; Direccionamiento directo
+CMP CX, 0
+JE FACT_DONE
+FACT_LOOP: MUL CX ; AX = AX * CX LOOP FACT_LOOP
+
+FACT_DONE: MOV [result], AX ; Almacenar resultado
+
+MOV AH, 4Ch
+INT 21h
+END START
+
+El codigo completo comentado linea por linea:
+
+.MODEL SMALL ; Define el modelo de memoria SMALL (segmentos de código y datos <= 64 KB)
+
+.STACK 100h ; Reserva un stack de 256 bytes (0x100h)
+
+.DATA num DW 5 ; Define la variable 'num' de 16 bits (word) e inicializa con 5 result DD ? ; Define la variable 'result' de 32 bits (double word), sin valor inicial
+
+.CODE START: MOV AX, @DATA ; Carga la dirección del segmento de datos en AX MOV DS, AX ; Inicializa el registro DS para apuntar al segmento de datos
+
+MOV AX, 1
+; Inicializa AX con 1 (se usará para el factorial)
+MOV CX, [num]       ; Direccionamiento directo
+; Carga en CX el valor de 'num' (contador del bucle)
+CMP CX, 0
+; Compara CX con 0
+JE FACT_DONE
+; Si CX es 0, salta a FACT_DONE (factorial de 0 es 1)
+FACT_LOOP: MUL CX ; Multiplica AX por CX (AX = AX * CX) LOOP FACT_LOOP ; Decrementa CX y si CX != 0, salta a FACT_LOOP
+
+FACT_DONE: MOV [result], AX ; Almacenar resultado ; Guarda el valor final del factorial en 'result'
+
+MOV AH, 4Ch
+; Función de terminación de programa en DOS
+INT 21h
+; Interrupción de DOS para terminar el programa
+END START ; Marca el final del programa, punto de entrada START

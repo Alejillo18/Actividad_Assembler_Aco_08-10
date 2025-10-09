@@ -1,0 +1,78 @@
+Ejecutar y obtener el programa en lenguaje ensamblador del item 7.
+Vamos a resumir cómo ejecutar y obtener tu programa en lenguaje ensamblador del ítem 7 (factorial con entrada por teclado), 
+usando Google Colab con NASM.
+Como ya vimos, en Colab no usamos TASM, sino NASM en Linux, y vamos a hacer que lea un número desde teclado y calcule el factorial.
+
+#Código completo en NASM (Linux, entrada por teclado)
+%%writefile factorial.asm
+section .bss
+    num resb 2       ; espacio para ingresar 1-2 dígitos
+    result resb 8    ; espacio para almacenar factorial como string
+
+section .text
+global _start
+
+_start:
+    ; ---------------------
+    ; Leer número desde teclado
+    ; ---------------------
+    mov eax, 0        ; syscall read
+    mov ebx, 0        ; stdin
+    lea ecx, [num]
+    mov edx, 2        ; leer hasta 2 caracteres
+    int 0x80
+
+    ; convertir ASCII a número
+    movzx eax, byte [num]
+    sub eax, '0'
+    mov ecx, eax      ; ECX = número ingresado
+    mov eax, 1        ; EAX = acumulador factorial
+
+    ; ---------------------
+    ; Calcular factorial
+    ; ---------------------
+factorial_loop:
+    cmp ecx, 1
+    jle factorial_done
+    mul ecx
+    dec ecx
+    jmp factorial_loop
+
+factorial_done:
+    ; convertir resultado a ASCII simple (solo para números < 10)
+    add eax, '0'
+    mov [result], al
+
+    ; ---------------------
+    ; Imprimir resultado
+    ; ---------------------
+    mov eax, 4        ; syscall write
+    mov ebx, 1        ; stdout
+    lea ecx, [result]
+    mov edx, 1
+    int 0x80
+
+    ; nueva línea
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ; ---------------------
+    ; Salir del programa
+    ; ---------------------
+    mov eax, 1        ; syscall exit
+    xor ebx, ebx
+    int 0x80
+
+section .data
+newline db 10
+
+#Compilar y linkear en Colab
+!nasm -f elf32 factorial.asm -o factorial.o
+!ld -m elf_i386 factorial.o -o factorial
+
+#Ejecutar el programa
+!./factorial
+#Te permitirá ingresar un número de un dígito y mostrará el factorial calculado en pantalla.

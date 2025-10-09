@@ -1,0 +1,91 @@
+Debemos instalar NASM para hacerlo en colab
+
+1. Crear tu archivo .asm
+2. Compilar el código
+3. Ejecutar el programa
+4. Resultado nos da error, ese error es normal cuando intentás usar printf de C desde NASM en Linux/Colab sin linkear correctamente la librería de C, y además el código está pensado para 32 bits, mientras que Colab usa un sistema Linux 64-bit.
+5. Solución simple para Colab
+
+La forma más fácil es no usar printf, sino hacer todo con syscalls de Linux (int 0x80) para imprimir el resultado.
+
+- Así evitamos problemas de 32/64 bits y dependencias de libc.
+
+- Funciona 100% en Colab sin instalar nada extra.
+
+Por ejemplo, podemos crear un programa que:
+
+- Calcule factorial de 1 a 9 (para simplificar)
+
+- Convierta el resultado a ASCII
+
+- Lo imprima en pantalla usando syscall write
+
+# ==========================
+# Paso 1: Instalar NASM
+# ==========================
+!apt-get update
+!apt-get install nasm -y
+Hit:1 https://cli.github.com/packages stable InRelease
+Hit:2 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease
+Hit:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease
+Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu jammy InRelease
+Hit:6 https://r2u.stat.illinois.edu/ubuntu jammy InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:8 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:9 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy InRelease
+Hit:10 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:11 https://ppa.launchpadcontent.net/ubuntugis/ppa/ubuntu jammy InRelease
+Reading package lists... Done
+W: Skipping acquire of configured file 'main/source/Sources' as repository 'https://r2u.stat.illinois.edu/ubuntu jammy InRelease' does not seem to provide it (sources.list entry misspelt?)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+nasm is already the newest version (2.15.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 42 not upgraded.
+
+%%writefile factorial.asm
+section .data
+    num     dd 5
+    result  dd 1
+    fmt     db "El resultado es: %d", 10, 0
+
+section .text
+    global main
+    extern printf
+
+main:
+    mov eax, 1
+    mov ecx, [num]
+
+fact_loop:
+    cmp ecx, 1
+    jle fact_done
+    mul ecx
+    dec ecx
+    jmp fact_loop
+
+fact_done:
+    push eax
+    push fmt
+    call printf
+    add esp, 8
+
+    mov eax, 0
+    ret
+Overwriting factorial.asm
+
+# ==========================
+# Paso 3: Compilar y linkear
+# ==========================
+!nasm -f elf32 factorial.asm -o factorial.o
+!ld -m elf_i386 factorial.o -o factorial
+ld: warning: cannot find entry symbol _start; defaulting to 0000000008049000
+ld: factorial.o: in function `fact_done':
+factorial.asm:(.text+0x1c): undefined reference to `printf'
+
+# ==========================
+# Paso 4: Ejecutar el programa
+# ==========================
+!./factorial
+/bin/bash: line 1: ./factorial: No such file or directory

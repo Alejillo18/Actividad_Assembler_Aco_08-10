@@ -1,0 +1,57 @@
+ Investigar y agregar sentencias para ingresar valores por teclado en un par de ejercicios.
+En ensamblador x86, ingresar valores por teclado depende del sistema: DOS (TASM/TLINK) o Linux (NASM). 
+Le muestro un resumen para ambos casos y ejemplos.
+
+
+#En DOS (TASM/TLINK)
+#🔹 Leer un carácter
+MOV AH, 01h   ; función 01h de INT 21h = leer un carácter
+INT 21h       ; el carácter ingresado queda en AL
+#🔹 Leer una cadena
+MOV AH, 0Ah   ; función 0Ah de INT 21h = leer cadena
+LEA DX, buffer
+INT 21h
+#buffer debe estar definido así:
+buffer db 10   ; tamaño máximo
+       db ?    ; bytes leídos
+       db 10 dup(0) ; espacio para los caracteres
+#Ejemplo: leer un número de un solo dígito
+MOV AH, 01h
+INT 21h
+SUB AL, '0'     ; convertir de ASCII a número
+MOV BL, AL      ; guardarlo en BL
+
+#En Linux (NASM)
+
+#En Linux usamos syscall read para leer desde el teclado (stdin = 0).
+
+#🔹 Leer caracteres
+
+section .bss
+    num resb 1   ; reservar 1 byte para el número ingresado
+
+section .text
+global _start
+
+_start:
+    mov eax, 0      ; syscall read
+    mov ebx, 0      ; stdin
+    lea ecx, [num]  ; dirección donde guardar
+    mov edx, 1      ; leer 1 byte
+    int 0x80
+
+    ; convertir ASCII a número
+    mov al, [num]
+    sub al, '0'
+    ; ahora AL contiene el número ingresado
+
+#🔹 Leer una línea
+section .bss
+    buffer resb 10  ; espacio para 10 caracteres
+
+mov eax, 0          ; syscall read
+mov ebx, 0          ; stdin
+lea ecx, [buffer]
+mov edx, 10         ; hasta 10 bytes
+int 0x80
+#Esto guarda los bytes ingresados en buffer para procesarlos.
