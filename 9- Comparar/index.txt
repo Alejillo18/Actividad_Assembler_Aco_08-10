@@ -1,0 +1,58 @@
+9- Comparar las versiones de ensamblador.
+
+TASM/DOS
+
+Características:
+
+- Ejecutable en Windows/DOS usando INT 21h.
+- Segmentos .DATA, .CODE, .STACK.
+- Funciones de E/S (entrada/salida) se hacen con interrupciones de DOS.
+- Limitaciones: no portátil, difícil de ejecutar en Windows moderno sin DOSBox.
+
+Ventajas:
+
+- Ideal para aprender arquitectura x86 clásica.
+- Permite ver segmentación y registros de forma directa.
+
+Desventajas:
+
+- Difícil de instalar y ejecutar en Windows moderno.
+- Entrada/salida muy limitada.
+- Solo funciona en 16 bits.
+
+EMU8086/DOSBox
+
+Características:
+
+- Similar a TASM, pero todo integrado en un emulador moderno.
+- IDE con compilador y debugger.
+- Permite ejecutar código DOS sin instalar TASM ni TLINK por separado.
+
+Ventajas:
+
+- Muy fácil para practicar en Windows moderno.
+- Permite ver memoria, registros y depurar paso a paso.
+
+Desventajas:
+
+- Igual que TASM, solo emula 16 bits.
+- No es portable a Linux sin cambiar el código.
+NASM/Linux/Colab
+
+Características:
+
+- Ensamblador moderno para Linux x86-64 o x86-32.
+- No usa interrupciones de DOS; se usan syscalls (int 0x80 en 32 bits).
+- Compatible con Google Colab, Linux o cualquier máquina moderna.
+
+Ventajas:
+
+- Portable en sistemas modernos.
+- Permite usar syscalls o linkear con libc para funciones como printf.
+- Se puede integrar con scripts en Python o C en Colab.
+
+Desventajas:
+
+- Más complejo aprender syscalls de Linux.
+- Para mostrar números grandes hay que convertir registros a ASCII manualmente.
+- Sintaxis ligeramente distinta de TASM; requiere aprendizaje nuevo.

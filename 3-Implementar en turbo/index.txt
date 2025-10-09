@@ -1,0 +1,2 @@
+ Implementar en Turbo Asm y ejecutar. Para lograr esta actividad tuvimos que usar emu8086 ya que dicho emulador ya tiene integrado Turbo Assembler (TASM) y Turbo Linker (TLINK).
+En la siguiente imagen veremos el codigo pasado a .asm, vemos como corre en el emulador y los resultados que debería ser 120.
