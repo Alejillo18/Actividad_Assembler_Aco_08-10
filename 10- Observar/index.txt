@@ -1,0 +1,70 @@
+10-  Observar situaciones problemáticas e identificar metodología de resolución de problemas.
+
+1. Situaciones problemáticas detectadas
+a) Errores de ejecución en DOSBox/TASM
+
+- Problema: tasm : El término 'tasm' no se reconoce…
+- Causa: No se encuentra el ejecutable de TASM, o la ruta está mal.
+- Consecuencia: No se puede compilar el programa.
+
+b) Problemas de rutas con DOSBox
+
+- Problema: Carpeta con espacios en el nombre (Programacion Full stack).
+- Causa: DOSBox no maneja bien rutas con espacios sin comillas o renombrando carpetas.
+- Consecuencia: Imposible montar la unidad correctamente.
+
+c) Errores al usar printf en NASM/Linux
+
+- Problema: undefined reference to 'printf' y _start not found.
+- Causa: Código escrito para TASM/DOS intentando usar libc sin linkear correctamente.
+- Consecuencia: El ejecutable no se genera; no se puede correr el programa en Colab.
+
+d) Mostrar resultados en pantalla
+
+- Problema: El factorial se calcula, pero no se imprime.
+- Causa: Falta de llamadas a E/S (INT 21h en DOS, syscall en Linux).
+- Consecuencia: No se ve el resultado, lo que impide verificar que el cálculo es correcto.
+
+2.  Metodología de resolución de problemas aplicada
+Paso 1: Identificar el problema
+
+- Observar el error exacto que da el sistema o compilador.
+- Ejemplo: SyntaxError → comando de Linux usado en Python sin !.
+
+Paso 2: Analizar causas posibles
+
+-Revisar rutas, compatibilidad de sistema, dependencias, sintaxis del ensamblador.
+- Diferenciar entre errores de instalación, código, linker o ejecución.
+
+Paso 3: Buscar soluciones factibles
+
+- Para errores de ruta → renombrar carpetas o usar comillas.
+- Para errores de compilación → ajustar sintaxis y formato (-f elf32, _start).
+
+Para errores de libc (printf) → usar syscalls directos o linkear correctamente.
+
+Paso 4: Implementar la solución
+
+- Ejecutar los comandos correctos en el entorno adecuado.
+- En Colab: !apt install nasm, !nasm -f elf32 …, !ld -m elf_i386 ….
+
+Paso 5: Verificar resultados
+
+- Ejecutar el programa y comprobar salida.
+- Revisar registros o memoria si es ensamblador puro.
+- Asegurarse de que el problema original desapareció.
+
+Paso 6: Documentar y generalizar
+
+- Anotar errores y soluciones para no repetirlos.
+- Aplicar la misma lógica a futuros programas o ejercicios.
+
+3.  Aplicación práctica
+- Cada error que surgió (instalación de TASM, rutas en DOSBox, printf en NASM) se resolvió siguiendo esta metodología:
+
+1. Identificar → leer mensaje de error
+2. Analizar → comprender causa
+3. Buscar solución → Google, documentación, ajustar sintaxis
+4. Implementar → ejecutar comandos correctos
+5. Verificar → probar el programa
+6. Documentar → dejar notas para referencia
