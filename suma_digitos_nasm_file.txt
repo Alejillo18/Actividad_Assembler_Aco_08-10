@@ -1,0 +1,63 @@
+; suma_digitos_nasm.asm  (NASM, Linux x86_64)
+; Compilar: nasm -f elf64 suma_digitos_nasm.asm -o suma_digitos_nasm.o
+; Linkear: ld suma_digitos_nasm.o -o suma_digitos_nasm
+
+section .data
+    buf:    times 64 db 0
+    prompt: db "Ingrese un numero: ", 0
+    outmsg: db "La suma de los digitos es: ", 0
+
+section .bss
+    ; none
+
+section .text
+    global main
+    extern printf, fgets, strlen
+
+main:
+    push rbp
+    mov rbp, rsp
+    lea rdi, [rel prompt]
+    xor rax, rax
+    call printf
+
+    lea rdi, [rel buf]
+    mov esi, 64
+    xor rax, rax
+    call fgets
+
+    lea rsi, [rel buf]
+    mov rcx, 0          ; suma
+.loop:
+    mov al, byte [rsi]
+    cmp al, 0
+    je .done
+    cmp al, '\n'
+    je .done
+    cmp al, '-'
+    je .skip
+    cmp al, '0'
+    jb .skip
+    cmp al, '9'
+    ja .skip
+    sub al, '0'
+    add rcx, rax
+.skip:
+    inc rsi
+    jmp .loop
+.done:
+    lea rdi, [rel outmsg]
+    xor rax, rax
+    call printf
+
+    mov rsi, rcx
+    lea rdi, [rel fmt_int]
+    xor rax, rax
+    call printf
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+section .data
+fmt_int: db "%d\n", 0
