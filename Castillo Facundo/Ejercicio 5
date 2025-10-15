@@ -1,0 +1,17 @@
+/* gcd.c */
+#include <stdio.h>
+#include <stdlib.h>
+unsigned long long gcd(unsigned long long a, unsigned long long b) {
+    while (b != 0) {
+        unsigned long long r = a % b;
+        a = b; b = r;
+    }
+    return a;
+}
+int main(){
+    unsigned long long a,b;
+    printf("Ingrese a b: ");
+    if(scanf("%llu %llu", &a, &b) != 2) return 1;
+    printf("%llu\n", gcd(a,b));
+    return 0;
+}
