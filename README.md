@@ -14,8 +14,8 @@ Link del collab: Heredia: https://colab.research.google.com/drive/10UxfpLicm_Bd_
 
 ## Ejercicio Nro 3: Determinar si un número es primo
 
-Link del collab: Sasinka
-
+Link del collab: Sasinka_=
+https://colab.research.google.com/drive/1HH1IUkZW-KrOZxFgCFCEUd7npkvso53H?usp=sharing
 
 ## Ejercicio Nro 4: Suma de digitos
 
